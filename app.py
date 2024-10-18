@@ -2,8 +2,8 @@ from flask import Flask, render_template, request
 import requests
 from datetime import datetime  # Import datetime to get the current date and time
 
+# app = Flask(__name__)
 app = Flask(__name__)
-
 # Your OpenWeatherMap API key
 api_key = 'd38ebe8bc4fa6d4bbbdb7cf6256c6541'  # Replace with your actual OpenWeatherMap API key
 
