@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f6f8; /* Soft gray background */
+            color: #333333; /* Dark gray text */
+            line-height: 1.4;
+        }
+
+        header {
+            background-color: #28a745; /* White background for header */
+            color: white; /* Dark blue text */
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Softer shadow */
+            border-radius: 10px; /* Rounded corners for header */
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white; /* White background for main container */
+            border-radius: 15px;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #ecf0f1; /* Light gray for form background */
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            color: #28a745; /* Dark blue for label text */
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            width: 150px;
+            padding: 10px;
+            border: 2px solid #27ae60; /* Green border */
+            border-radius: 5px;
+            transition: border-color 0.3s;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: #1e6e50; /* Darker green on focus */
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #27ae60; /* Green button */
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background-color: #1e6e50; /* Darker green on hover */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .info-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .weather-info {
+            background-color: #0ee10036; /* White background for weather info */
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #27ae60; /* Green left border */
+            flex: 0 1 30%;
+            height: 310px;
+        }
+
+        .weather-info h2 {
+            margin-top: 0;
+            color: #27ae60; /* Green for headers */
+            font-size: 1.5em;
+        }
+
+        .subtitle {
+            color: #e67e22; /* Orange for subtitle */
+            font-size: 1.2em;
+            margin: 5px 0;
+        }
+
+        .weather-info p {
+            font-size: 1em;
+            margin: 5px 0;
+        }
+
+        .forecast {
+            background-color: #0ee10036; /* White background for forecast */
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #27ae60; /* Green left border */
+            flex: 0 1 65%;
+            height: auto;
+        }
+
+        .forecast h2 {
+            color: #27ae60; /* Green for forecast headers */
+            font-size: 1.5em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ccc; /* Light gray border */
+        }
+
+        th {
+            background-color: #27ae60; /* Green background for table headers */
+            color: white;
+            font-size: 1em;
+        }
+
+        tr:hover {
+            background-color: #ecf0f1; /* Light gray on hover */
+        }
+
+        .error {
+            color: #e74c3c; /* Red for error messages */
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 1em;
+            color: #666;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            form {
+                flex-direction: column;
+            }
+
+            input[type="text"] {
+                margin-bottom: 10px;
+                width: 100%;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            .info-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Weather Forecast Dashboard</h1>
+    </header>
+
+    <div class="container">
+        <h2>Search for a City</h2>
+        <form action="/weather" method="post">
+            <label for="city_name">Enter city name:</label>
+            <input type="text" id="city_name" name="city_name" placeholder="e.g., Chennai" required>
+            <button type="submit">Get Weather</button>
+        </form>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <div class="info-container">
+            <div class="weather-info">
+    <h2>{{ current_location.city|capitalize }} Weather Forecast</h2>
+    <h3 class="subtitle">Today</h3>
+    <p><strong>Latitude:</strong> {{ current_location.latitude }}</p>
+    <p><strong>Longitude:</strong> {{ current_location.longitude }}</p>
+    <p><strong>Date and Time:</strong> {{ current_datetime }}</p>
+    <p><strong>Region:</strong> {{ current_location.region }}</p>
+    <p><strong>Temperature:</strong> {{ current_location.temperature }} °C</p>
+    <p><strong>Weather:</strong> {{ current_location.weather }}</p>
+    <p><strong>Humidity:</strong> {{ current_location.humidity }} %</p>
+    <p><strong>Wind Speed:</strong> {{ current_location.wind_speed }} m/s</p>
+</div>
+
+
+
+            <div class="forecast">
+                <h2>{{ current_location.city|capitalize }} Next 5 Day Weather Forecast</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Temperature (°C)</th>
+                            <th>Weather</th>
+                            <th>Humidity (%)</th>
+                            <th>Wind Speed (m/s)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for date, data in daily_forecast.items() %}
+                            <tr>
+                                <td>{{ date }}</td>
+                                <td>{{ data.temperature }} °C</td>
+                                <td>{{ data.weather }}</td>
+                                <td>{{ data.humidity }} %</td>
+                                <td>{{ data.wind_speed }} m/s</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2024 Weather App. All rights reserved.
+    </footer>
+</body>
+</html>
