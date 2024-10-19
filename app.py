@@ -15,13 +15,16 @@ def get_coordinates(city_name, api_key):
 
     # Send a request to the OpenWeatherMap API
     response = requests.get(url)
-    data = response.json()  # Parse the response JSON
+    data = response.json()
+    print("get_coordinates data---->", data)# Parse the response JSON
 
     # Check if the request was successful
     if response.status_code == 200:
         # Extract latitude and longitude
         lat = data['coord']['lat']
         lon = data['coord']['lon']
+        print("longitude---->", lon)
+        print("lattitude---->", lat)
         return lat, lon
     else:
         print(f"Error fetching coordinates: {data['message']}")
@@ -31,6 +34,7 @@ def get_coordinates(city_name, api_key):
 def get_current_location():
     response = requests.get('https://ipinfo.io/json')
     data = response.json()
+    print("get_current_location data---->", data)
     return data
 
 
@@ -38,6 +42,7 @@ def get_weather(lat, lon):
     weather_url = f'http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}&units=metric'
     response = requests.get(weather_url)
     weather_data = response.json()
+    print("get_weather weather_data------>", weather_data)
     return weather_data
 
 
@@ -45,6 +50,7 @@ def get_forecast(lat, lon):
     forecast_url = f'http://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={api_key}&units=metric'
     response = requests.get(forecast_url)
     forecast_data = response.json()
+    print("forecast_data----->", forecast_data)
     return forecast_data
 
 
@@ -52,10 +58,13 @@ def get_forecast(lat, lon):
 def index():
     # Get the current location data
     location_data = get_current_location()
+    print("location_data--->", location_data)
     lat, lon = location_data['loc'].split(',')
+    print(f"lat----> {lat} and lon----{lon}")
 
     # Get the current weather data
     current_weather_data = get_weather(lat, lon)
+    print("current_weather_data---->", current_weather_data)
     current_location = {
         "city": location_data['city'],
         "region": location_data.get('region', 'N/A'),
@@ -72,6 +81,7 @@ def index():
 
     # Get the 5-day forecast for the current location
     forecast_data = get_forecast(lat, lon)
+    print("forecast_data---->", forecast_data)
     daily_forecast = {}
 
     for entry in forecast_data['list']:
@@ -93,6 +103,7 @@ def index():
 @app.route('/weather', methods=['POST'])
 def weather():
     city_name = request.form.get('city_name')
+    print("city_name----->", city_name)
 
     # Use the get_coordinates function to fetch latitude and longitude for the entered city
     lat, lon = get_coordinates(city_name, api_key)
